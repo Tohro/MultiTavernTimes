@@ -1,0 +1,76 @@
+# Rider-specific
+.idea/
+*.sln.iml
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+out/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Visual Studio Code
+.vscode/
+
+# Dotnet CLI
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+
+
+# Rider caches (optional, if you want to exclude all)
+.idea_modules/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# JetBrains run/debug configs
+.idea/**/runConfigurations/
+
+# Rider-specific compiler caches
+.idea/.idea.IC/
+.idea/.idea.DotSettings
+.idea/.idea.DotSettings.user
+.idea/.idea.ReSharper
+
+# Rider's .dotCover
+.idea/.dotCover
+
+# Rider's solution-wide inspections
+.idea/.idea.SolutionAnalysis
+
+# Rider's code styles
+.idea/codeStyles/
+
+# Rider's UI settings
+.idea/uiDesigner.xml
