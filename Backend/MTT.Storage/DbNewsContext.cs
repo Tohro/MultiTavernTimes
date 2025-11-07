@@ -14,6 +14,35 @@ public class DbNewsContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        
+        modelBuilder.Entity<News>().HasData(
+            NewsSeedData.GetNews().Select(n => new
+            {
+                n.NewsId,
+                n.CreatedAt,
+                n.ModifiedAt,
+                n.ImageFileName
+            })
+                .Cast<object>()
+                .ToArray()
+        );
+
+        modelBuilder.Entity<NewsTranslation>().HasData(
+            NewsSeedData.GetNews()
+                .SelectMany(n => n.Translations.Select(t => new
+                {
+                    t.TranslationId,
+                    t.NewsId,
+                    t.Language,
+                    t.Title,
+                    t.Subtitle,
+                    t.Text
+                }))
+                .Cast<object>()
+                .ToArray()
+        );
+        
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -29,10 +29,12 @@ internal class UpdateNewsStorage(
 
         var translation = news.Translations.First(t => t.Language == language);
 
+        news.ModifiedAt = DateTimeOffset.UtcNow;
         // Обновляем перевод
         translation.Title = title;
         translation.Subtitle = subtitle;
         translation.Text = text;
+        
 
         // Обновляем изображение, если передано новое имя
         if (!string.IsNullOrWhiteSpace(imageFileName))
@@ -51,7 +53,9 @@ internal class UpdateNewsStorage(
             Language = translation.Language,
             Title = translation.Title,
             Subtitle = translation.Subtitle,
-            Text = translation.Text
+            Text = translation.Text,
+            CreatedAt = news.CreatedAt,
+            ModifiedAt = news.ModifiedAt
         };
         
         return newsDomain;

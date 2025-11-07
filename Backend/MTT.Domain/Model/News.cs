@@ -8,4 +8,6 @@ public class News
     public string Title { get; set; }
     public string Subtitle { get; set; }
     public string Text { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset ModifiedAt { get; set; }
 }

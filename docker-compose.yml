@@ -1,0 +1,49 @@
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  #------------------------------------------------------------    postgres
+  postgres:
+    container_name: ${NAME_POSTGRES}
+    image: 'postgres:17'
+    ports:
+      - '${PG_OUTER_PORT}:${PG_INNER_PORT}'  # внешний:внутренний
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - "C:/Docker/${NAME_POSTGRES}:/var/lib/postgresql/data"
+    networks:
+      - app_network
+  
+  #---------------------------------------------------------backend
+  mtt_backend_api:
+    build:
+      context: .
+      dockerfile: Backend/MTT.API/Dockerfile
+    container_name: "${NAME_CONTAINER_API}"
+    ports:
+      - "${PORT_OUTER}:${PORT_INNER}"
+    environment:
+      'ASPNETCORE_ENVIRONMENT': '${ASPNETCORE_ENVIRONMENT}'
+      'ASPNETCORE_URLS': 'http://+:${PORT_OUTER}'
+      'CORS__AllowedOrigins': 'http://localhost:5173'
+      'ConnectionStrings__Postgres': "Server=postgres;Port=${PG_INNER_PORT};Database=${DATABASE};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+  #---------------------------------------------------------frontend
+  mtt_frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    container_name: "${NAME_CONTAINER_FRONTEND}"
+    ports:
+      - "8080:80"
+    depends_on:
+      - mtt_backend_api
+    networks:
+      - app_network

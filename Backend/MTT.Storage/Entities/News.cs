@@ -5,6 +5,9 @@ public class News
     public Guid NewsId { get; set; }
     public ICollection<NewsTranslation> Translations { get; set; } = new List<NewsTranslation>();
     
+    public DateTimeOffset CreatedAt { get; set; }
+
+    public DateTimeOffset ModifiedAt { get; set; }
     public string ImageFileName { get; set; }
 }
 

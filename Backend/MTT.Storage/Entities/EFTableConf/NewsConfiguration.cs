@@ -22,5 +22,11 @@ public class NewsConfiguration : IEntityTypeConfiguration<News>
             .WithOne()
             .HasForeignKey(t => t.NewsId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Property(l => l.CreatedAt)
+            .HasColumnType("timestamp with time zone");
+
+        builder.Property(l => l.ModifiedAt)
+            .HasColumnType("timestamp with time zone");
     }
 }

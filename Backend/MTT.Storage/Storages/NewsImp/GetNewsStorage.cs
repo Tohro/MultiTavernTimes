@@ -19,6 +19,8 @@ internal class GetNewsStorage(
             {
                 n.NewsId,
                 n.ImageFileName,
+                n.CreatedAt,
+                n.ModifiedAt,
                 Translation = n.Translations.FirstOrDefault(t => t.Language == language)
             })
             .FirstOrDefaultAsync(cancellationToken);
@@ -33,7 +35,9 @@ internal class GetNewsStorage(
             Language = entity.Translation.Language,
             Title = entity.Translation.Title,
             Subtitle = entity.Translation.Subtitle,
-            Text = entity.Translation.Text
+            Text = entity.Translation.Text,
+            CreatedAt = entity.CreatedAt,
+            ModifiedAt = entity.ModifiedAt
         };
     }
 
@@ -47,6 +51,8 @@ internal class GetNewsStorage(
             {
                 n.NewsId,
                 n.ImageFileName,
+                n.CreatedAt,
+                n.ModifiedAt,
                 Translation = n.Translations.FirstOrDefault(t => t.Language == language)
             })
             .Where(x => x.Translation != null)
@@ -59,7 +65,9 @@ internal class GetNewsStorage(
             Language = x.Translation!.Language,
             Title = x.Translation.Title,
             Subtitle = x.Translation.Subtitle,
-            Text = x.Translation.Text
+            Text = x.Translation.Text,
+            CreatedAt = x.CreatedAt,
+            ModifiedAt = x.ModifiedAt
         });
     }
 }

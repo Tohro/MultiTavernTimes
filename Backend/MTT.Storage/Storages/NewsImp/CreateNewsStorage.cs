@@ -17,10 +17,13 @@ internal class CreateNewsStorage (
         var newsId = guidFactory.GetGuid();
         var translationId = guidFactory.GetGuid();
 
+        
         var news = new Entities.News
         {
             NewsId = newsId,
-            ImageFileName = imageName
+            ImageFileName = imageName,
+            CreatedAt = DateTimeOffset.UtcNow,
+            ModifiedAt = DateTimeOffset.UtcNow
         };
 
         var translation = new NewsTranslation
@@ -48,7 +51,9 @@ internal class CreateNewsStorage (
             Language = translation.Language,
             Title = translation.Title,
             Subtitle = translation.Subtitle,
-            Text = translation.Text
+            Text = translation.Text,
+            CreatedAt = news.CreatedAt,
+            ModifiedAt = news.ModifiedAt
         };
         
         return newsDomain;
