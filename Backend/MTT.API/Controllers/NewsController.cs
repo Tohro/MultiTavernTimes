@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MTT.API.Models;
@@ -15,7 +16,7 @@ namespace MTT.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/news")]
-public class NewsController(IMediator mediator) : ControllerBase
+public class NewsController(IMediator mediator, IWebHostEnvironment env) : ControllerBase
 {
     [AllowAnonymous]
     [HttpPost("admin/login")]
@@ -30,15 +31,17 @@ public class NewsController(IMediator mediator) : ControllerBase
             new Claim(ClaimTypes.Role, "Administrator")
         };
 
-        var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
 
-        await HttpContext.SignInAsync("MyCookieAuth", principal);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-        return Ok("Вход выполнен");
+        return Ok();
     }
+    
     [HttpPost("create")]
-    public async Task<IActionResult> CreateNews([FromBody] News request, CancellationToken token)
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> CreateNews([FromBody] CreateNews request, CancellationToken token)
     {
         var command = new CreateNewsCommand(
             request.ImageFileName,
@@ -53,7 +56,8 @@ public class NewsController(IMediator mediator) : ControllerBase
 
 
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateNews([FromBody] News request, CancellationToken token)
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> UpdateNews([FromBody] UpdateNews request, CancellationToken token)
     {
         var command = new UpdateNewsCommand(
             request.NewsId,
@@ -69,6 +73,7 @@ public class NewsController(IMediator mediator) : ControllerBase
 
 
     [HttpDelete("{newsId:guid}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeleteNews(Guid newsId, CancellationToken token)
     {
         var command = new DeleteNewsCommand(newsId);
@@ -95,10 +100,43 @@ public class NewsController(IMediator mediator) : ControllerBase
     {
         var query = new GetNewsListQuery(language, skip, take);
         var response = await mediator.Send(query, token);
-        return TransformData(response);
+        var res= Result<(IEnumerable<News>,int)>
+            .Ok((response.Value.Item1.Select(entity=>
+            new News(
+                entity.NewsId,
+                entity.ImageFileName,
+                entity.Language,
+                entity.Title,
+                entity.Subtitle,
+                entity.Text,
+                entity.CreatedAt,
+                entity.ModifiedAt
+            )),response.Value.totalCount));
+        return new ObjectResult(res);
     }
 
     // Helper
+    [Authorize(Roles = "Administrator")]
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadImage(IFormFile image)
+    {
+        if (image == null || image.Length == 0)
+            return BadRequest("Файл не выбран.");
+
+        var imagesPath = Path.Combine(env.WebRootPath, "news", "images");
+        Directory.CreateDirectory(imagesPath); 
+
+        var fileName = Path.GetRandomFileName() + Path.GetExtension(image.FileName);
+        var filePath = Path.Combine(imagesPath, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await image.CopyToAsync(stream);
+        }
+
+        return Ok(new { fileName });
+    }
+
     private IActionResult TransformData(Result<Guid> response)
     {
         if (!response.Success)

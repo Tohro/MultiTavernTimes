@@ -8,7 +8,7 @@ public class GetNewsUseCases(
     ILogger<GetNewsUseCases> logger,
     IUnitOfWork unitOfWork)
     : IRequestHandler<GetNewsByIdQuery, Result<News>>,
-        IRequestHandler<GetNewsListQuery,Result<IEnumerable<News>>>
+        IRequestHandler<GetNewsListQuery,Result<(IEnumerable<News>,int totalCount)>>
 {
     public async Task<Result<News>> Handle(GetNewsByIdQuery request, CancellationToken cancellationToken)
     {
@@ -27,7 +27,7 @@ public class GetNewsUseCases(
         return Result<News>.Ok(news);
     }
 
-    public async Task<Result<IEnumerable<News>>> Handle(GetNewsListQuery request, CancellationToken cancellationToken)
+    public async Task<Result<(IEnumerable<News>,int totalCount)>> Handle(GetNewsListQuery request, CancellationToken cancellationToken)
     {
         await using var scope = await unitOfWork.StartScope(cancellationToken);
         
@@ -38,6 +38,6 @@ public class GetNewsUseCases(
      
         await scope.Commit(cancellationToken);
         
-        return Result<IEnumerable<News>>.Ok(newsList);
+        return Result<(IEnumerable<News>,int totalCount)>.Ok(newsList);
     }
 }

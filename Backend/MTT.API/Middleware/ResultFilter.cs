@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using MTT.API.Infrastructure;
+using MTT.API.Models;
 using MTT.Domain.UseCases;
 
 namespace MTT.API.Middleware;
@@ -30,12 +31,31 @@ public class ResultFilter(ProblemDetailsFactory detailsFactory, ILogger<ResultFi
                     logger.LogInformation("Successful ResultFilter execution. Type: {ValueType}, Path: {Path}",
                         value?.GetType().Name ?? "unknown", context.HttpContext.Request.Path);
 
-                    context.Result = new ObjectResult(value)
+                    if (value is ValueTuple<IEnumerable<News>, int> tupleValue)
                     {
-                        DeclaredType = value?.GetType() ?? typeof(object),
-                        StatusCode = StatusCodes.Status200OK,
-                        ContentTypes = { "application/json" }
-                    };
+                        var (newsList, totalCount) = tupleValue;
+
+                        context.Result = new ObjectResult(new
+                        {
+                            Items = newsList,
+                            TotalCount = totalCount
+                        })
+                        {
+                            DeclaredType = typeof(object),
+                            StatusCode = StatusCodes.Status200OK,
+                            ContentTypes = { "application/json" }
+                        };
+                    }
+                    else
+                    {
+                        context.Result = new ObjectResult(value)
+                        {
+                            DeclaredType = value?.GetType() ?? typeof(object),
+                            StatusCode = StatusCodes.Status200OK,
+                            ContentTypes = { "application/json" }
+                        };
+                    }
+                    
                 }
                 else
                 {

@@ -6,7 +6,7 @@ namespace MTT.Domain.UseCases.NewsOperations.GetNews;
 
 public record GetNewsByIdQuery(Guid NewsId,string Language) : IRequest<Result<News>>;
 
-public record GetNewsListQuery(string Language,int Skip,int Take):IRequest<Result<IEnumerable<News>>>;
+public record GetNewsListQuery(string Language,int Skip,int Take):IRequest<Result<(IEnumerable<News>,int totalCount)>>;
 
 
 public class GetNewsByIdQueryValidator : AbstractValidator<GetNewsByIdQuery>

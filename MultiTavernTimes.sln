@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{1E2C
 		Backend\Directory.Build.props = Backend\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{20063DAA-6225-4949-8790-ADD984602FD5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.API", "Backend\MTT.API\MTT.API.csproj", "{B069167A-01C1-4DB2-BABA-BB3683A45FA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Domain", "Backend\MTT.Domain\MTT.Domain.csproj", "{3907D49A-ADAD-486C-8A84-CA1D2E3A194C}"

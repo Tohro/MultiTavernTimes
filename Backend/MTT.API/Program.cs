@@ -51,7 +51,8 @@ public class Program
                 var origins = builder.Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>();
                 policy.WithOrigins(origins ?? Array.Empty<string>())
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    .AllowAnyMethod()
+                    .AllowCredentials();
             });
         });
         
@@ -74,6 +75,8 @@ public class Program
                 db.Database.Migrate(); // применяет все доступные миграции
             }
         }
+
+        app.UseStaticFiles();
         // Используем CORS
         app.UseCors("AllowFrontend");
 

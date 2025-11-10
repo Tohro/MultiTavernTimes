@@ -41,25 +41,35 @@ internal class GetNewsStorage(
         };
     }
 
-    public async Task<IEnumerable<News>> GetNewsListAsync(string language, int skip, int take, CancellationToken token)
+    public async Task<(IEnumerable<News>,int totalCount)> GetNewsListAsync(string language, int skip, int take, CancellationToken token)
     {
-        var entities = await context.News
-            .Include(n => n.Translations)
-            .Skip(skip)
-            .Take(take)
-            .Select(n => new
-            {
+        var query = context.News
+            .Where(n => n.Translations.Any(t => t.Language == language));
+
+        var totalCount = await query.CountAsync(token);
+
+        var entities = await query
+            .Select(n => new {
                 n.NewsId,
                 n.ImageFileName,
                 n.CreatedAt,
                 n.ModifiedAt,
-                Translation = n.Translations.FirstOrDefault(t => t.Language == language)
+                Translation = n.Translations
+                    .Where(t => t.Language == language)
+                    .Select(t => new {
+                        t.Language,
+                        t.Title,
+                        t.Subtitle,
+                        t.Text
+                    })
+                    .FirstOrDefault()
             })
-            .Where(x => x.Translation != null)
+            .OrderByDescending(n => n.CreatedAt)
+            .Skip(skip)
+            .Take(take)
             .ToListAsync(token);
 
-        return entities.Select(x => new News
-        {
+        return (entities.Select(x => new News {
             NewsId = x.NewsId,
             ImageFileName = x.ImageFileName,
             Language = x.Translation!.Language,
@@ -68,6 +78,6 @@ internal class GetNewsStorage(
             Text = x.Translation.Text,
             CreatedAt = x.CreatedAt,
             ModifiedAt = x.ModifiedAt
-        });
+        }), totalCount);
     }
 }
