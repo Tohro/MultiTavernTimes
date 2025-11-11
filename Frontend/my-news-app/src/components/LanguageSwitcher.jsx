@@ -8,7 +8,7 @@ export default function LanguageSwitcher() {
     };
 
     return (
-        <select value={i18n.language} onChange={(e) => changeLanguage(e.target.value)}>
+        <select className="dark:bg-gray-800 text-gray-800 dark:text-gray-200" value={i18n.language} onChange={(e) => changeLanguage(e.target.value)}>
             <option value="ru">RU</option>
             <option value="en">EN</option>
         </select>

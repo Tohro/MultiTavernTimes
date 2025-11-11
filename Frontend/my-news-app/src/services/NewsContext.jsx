@@ -6,13 +6,14 @@ export const NewsContext = createContext(null);
 
 export function NewsProvider({ children }) {
     const [state, dispatch] = useReducer(newsReducer, initialNewsState);
-//не нужно
+// Не используется тк это другое состояние, в котором не требуется некоторое управление. В homepage такое же состояние нужно,
+// тут просто через reducer и context. 
     //createNews
     const addNews = async (imageFileName, language, title, subtitle, text) => {
         const res = await createNewsApi( imageFileName, language, title, subtitle, text)
         dispatch({ type: 'ADD_NEWS', payload: res.data });
     };
-//не нужно
+// Не используется
     //updateNews
     const updateNews = async (id, imageFileName, language, title, subtitle, text) => {
         const res = await updateNewsApi(id, imageFileName, language, title, subtitle, text)
@@ -23,7 +24,7 @@ export function NewsProvider({ children }) {
         await deleteNewsApi(id);
         dispatch({ type: 'DELETE_NEWS', payload: id });
     };
-//не нужно
+// Не используется
     //fetchNewsById
     const getByIdNews = async (id, language) => {
         const res = await fetchNewsByIdApi(id,language)

@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import LanguageSwitcher from './LanguageSwitcher';
 import Navigation from './Navigation';
 import { useTranslation } from 'react-i18next';
@@ -24,16 +23,27 @@ export default function Header() {
     };
 
     return (
-        <header style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', borderBottom: '1px solid #ccc' }}>
-            <Navigation />
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <LanguageSwitcher />
+        <header className="flex justify-between items-center px-4 py-3 border-b border-gray-300  shadow-sm  dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+            <Navigation/>
+            <div className="flex items-center gap-4">
+                <LanguageSwitcher/>
                 {isAuthenticated ? (
-                    <button onClick={handleLogout}>{t('logout')}</button>
+                    <button
+                        onClick={handleLogout}
+                        className="text-sm px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition"
+                    >
+                        {t('logout')}
+                    </button>
                 ) : (
-                    <Link to="/login">{t('login')}</Link>
+                    <Link
+                        to="/login"
+                        className="text-sm px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 transition"
+                    >
+                        {t('login')}
+                    </Link>
                 )}
             </div>
         </header>
+
     );
 }

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { NewsContext } from '../services/NewsContext';
 import NewsCard from '../components/NewsCard';
 import { useTranslation } from 'react-i18next';
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {AuthContext} from "../services/AuthContext.jsx";
 import {t} from "i18next";
 
@@ -29,27 +29,49 @@ function NewsListPage() {
         loadListNews(i18n.language);
     }, [i18n.language]);
 
-    if (loading) return <p>Загрузка новостей...</p>;
-    if (error) return <p>Ошибка загрузки: {error}</p>;
-    if (!items || items.length === 0) return <p>Нет новостей для отображения.</p>;
-    let content = totalCount === items.length ?
-        (<p>Нет новостей для отображения.</p>):
-        (<button onClick={()=>{handleLoadNext()}}>Есть новости для отображения.</button>)
-   
+    if (loading) return <p className="text-center text-gray-500 py-4">Загрузка новостей...</p>;
+    if (error) return <p className="text-center text-red-500 py-4">Ошибка загрузки: {error}</p>;
+    if (!items || items.length === 0) return <p className="text-center text-gray-500 py-4">Нет новостей для отображения.</p>;
+
+    const content =
+        totalCount === items.length ? (
+            <p className="text-center text-gray-500 py-4">Нет новостей для отображения.</p>
+        ) : (
+            <div className="text-center mt-4">
+                <button
+                    onClick={handleLoadNext}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                >
+                    Есть новости для отображения
+                </button>
+            </div>
+        );
+
     return (
-        <div className="news-list-page">
-            {
-                isAuthenticated && (
-                    <button onClick={()=>{handleCreate()}}>{t('create')}</button>)
-            }
+        <div className="max-w-2xl mx-auto px-4 py-8 space-y-4">
+            {isAuthenticated && (
+                <div className="text-right mb-4">
+                    <button
+                        onClick={handleCreate}
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                    >
+                        {t('create')}
+                    </button>
+                </div>
+            )}
+
             {items.map(news => (
-                <NewsCard key={news.newsId} news={news} onEdit={handleEdit} onDelete={()=>deleteNews(news.newsId)} />
+                <NewsCard
+                    key={news.newsId}
+                    news={news}
+                    onEdit={handleEdit}
+                    onDelete={() => deleteNews(news.newsId)}
+                />
             ))}
 
-            {
-                content
-            }
+            {content}
         </div>
+    
     );
 }
 

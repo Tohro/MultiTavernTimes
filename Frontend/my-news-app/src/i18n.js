@@ -16,7 +16,18 @@ const resources = {
             delete: "Delete",
             loading: "Loading",
             save: "Save",
-            translation: "there is no translation of the article"
+            translation: "there is no translation of the article",
+            created: "Created",
+            updated: "Updated",
+            validationRequired: "This field is required",
+            validationImageRequired: "The image must be selected",
+            create_news: "Create news",
+            title: "Title",
+            subtitle: "Subtitle",
+            text: "Text",
+            image: "Image",
+            submitting: "Submitting"
+
         }
     },
     ru: {
@@ -33,7 +44,17 @@ const resources = {
             delete: "Удалить",
             loading: "Загрузка",
             save: "Сохранить",
-            translation: "Нет перевода" 
+            translation: "Нет перевода",
+            created: "Создано",
+            updated: "Обновлено",
+            validationRequired: "Это поле обязательно",
+            validationImageRequired: "Изображение должно быть выбрано",
+            create_news: "Создать новость",
+            title: "Заголовок",
+            subtitle: "Подзаголовок",
+            text: "Текст",
+            image: "Картинка",
+            submitting: "Отправка"
         }
     }
 };

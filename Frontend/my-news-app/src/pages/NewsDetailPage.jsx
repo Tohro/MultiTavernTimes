@@ -32,17 +32,23 @@ export default function NewsDetailPage() {
     
 
     return (
-        <div>
-            <h1>{news.title}</h1>
+        <div className="max-w-2xl mx-auto px-4 py-8 space-y-6 bg-white border border-gray-300 rounded shadow dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+            <h1 className="text-3xl font-bold ">{news.title}</h1>
+
             <img
                 src={`http://localhost:5270/news/images/${news.imageFileName}`}
                 alt={news.title}
-                style={{maxWidth: '100%', height: 'auto'}}
+                className="w-full h-auto rounded border border-gray-200"
             />
-            <h2>{news.subtitle}</h2>
-            <p>{news.text}</p>
-            <p>Created: {formatDate(news.createdAt)}</p>
-            <p>Updated: {formatDate(news.modifiedAt)}</p>
+
+            <h2 className="text-xl font-semibold ">{news.subtitle}</h2>
+
+            <p className="text-gray-300 whitespace-pre-line">{news.text}</p>
+
+            <div className="text-sm text-gray-500 space-y-1">
+                <p>🕰️ {t('created')}: {formatDate(news.createdAt)}</p>
+                <p>✏️ {t('updated')}: {formatDate(news.modifiedAt)}</p>
+            </div>
         </div>
     );
 }

@@ -47,14 +47,6 @@ export const fetchNewsListApi = (language, skip = 0, take = 10) =>
     });
 
 //Upload
-// export const uploadRes =(formData)=>
-//     axios.create( {
-//         baseURL: API_BASE,    
-//         headers: { 'Content-Type': 'multipart/form-data' },
-//         withCredentials: true
-// }).post('/upload', {image:formData});
-
-
 export const uploadRes = (formData) => {
     return axios.post(`${API_BASE}/upload`, formData, {
         headers: {

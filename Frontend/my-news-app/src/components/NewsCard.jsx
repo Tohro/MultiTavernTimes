@@ -10,18 +10,33 @@ export default function NewsCard({ news, onEdit, onDelete }) {
 
     return (
         <>
-        <div style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem' }}>
-            <Link to={`/news/${news.newsId}`}>
-                <h3>{news.title}</h3>
-                <p>{news.subtitle}</p>
-            </Link>
-            {isAuthenticated && (
-                <div style={{ marginTop: '0.5rem' }}>
-                    <button onClick={() => onEdit(news)}>{t('edit')}</button>
-                    <button onClick={() => onDelete(news)}>{t('delete')}</button>
-                </div>
-            )}
-        </div>
+            <div
+                className="border border-gray-600 p-4 mb-4 rounded shadow-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                <Link
+                    to={`/news/${news.newsId}`}
+                    className="block hover:bg-gray-200 dark:hover:bg-gray-700 transition rounded p-2"
+                >
+                    <h3 className="text-lg font-semibold">{news.title}</h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-400">{news.subtitle}</p>
+                </Link>
+
+                {isAuthenticated && (
+                    <div className="mt-2 flex gap-2">
+                        <button
+                            onClick={() => onEdit(news)}
+                            className="px-3 py-1 text-sm rounded bg-yellow-600 text-white hover:bg-yellow-700 transition"
+                        >
+                            {t('edit')}
+                        </button>
+                        <button
+                            onClick={() => onDelete(news)}
+                            className="px-3 py-1 text-sm rounded bg-red-600 text-white hover:bg-red-700 transition"
+                        >
+                            {t('delete')}
+                        </button>
+                    </div>
+                )}
+            </div>
         </>
     );
 }

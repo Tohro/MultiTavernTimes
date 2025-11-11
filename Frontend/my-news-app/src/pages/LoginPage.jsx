@@ -21,13 +21,31 @@ export default function LoginPage() {
 
     return (
         <>
-            <div>
-                <h2>{t('login')}</h2>
-                <input placeholder={t('email')} value={email} onChange={e => setEmail(e.target.value)}/>
-                <input placeholder={t('password')} type="password" value={password}
-                       onChange={e => setPassword(e.target.value)}/>
+            <div className="max-w-sm mx-auto mt-12 p-6 bg-white border border-gray-300 rounded shadow space-y-4 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                <h2 className="text-xl font-semibold text-center text-gray-400">{t('login')}</h2>
 
-                <button onClick={handleLogin}>{t('submit')}</button>
+                <input
+                    type="email"
+                    placeholder={t('email')}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+
+                <input
+                    type="password"
+                    placeholder={t('password')}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+
+                <button
+                    onClick={handleLogin}
+                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+                >
+                    {t('submit')}
+                </button>
             </div>
         </>
     );

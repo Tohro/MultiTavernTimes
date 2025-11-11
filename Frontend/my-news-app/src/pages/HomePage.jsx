@@ -1,8 +1,9 @@
-import {useContext, useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from "../components/NewsCard.jsx";
 import {deleteNewsApi, fetchNewsListApi} from "../services/api.js";
 import {useNavigate} from "react-router-dom";
+import {t} from "i18next";
 
 export default function HomePage() {
     const [news, setNews] = useState([]);
@@ -33,16 +34,19 @@ export default function HomePage() {
         });
     }, [i18n.language]);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div>{t("loading")}...</div>;
 
 
     return (
-        <div>
-            {
-                news.map(n => (
-                    <NewsCard key={n.newsId} news={n} onEdit={handleEdit} onDelete={handleDelete}></NewsCard>
-                ))
-            }
+        <div className="max-w-2xl mx-auto px-4">
+            {news.map(n => (
+                <NewsCard
+                    key={n.newsId}
+                    news={n}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
+            ))}
         </div>
     );
 }

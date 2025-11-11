@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 export default function Navigation() {
     const { t } = useTranslation();
 
-    const linkStyle = ({ isActive }) => ({
-        marginRight: '1rem',
-        textDecoration: isActive ? 'underline' : 'none'
-    });
+    const linkClass = ({ isActive }) =>
+        `mr-4 ${isActive ? 'underline text-blue-600' : 'text-gray-700 hover:text-blue-500'}`;
 
     return (
-        <nav>
-            <NavLink to="/" style={linkStyle}>{t('home')}</NavLink>
-            <NavLink to="/news" style={linkStyle}>{t('news')}</NavLink>
+        <nav className="flex items-center gap-4">
+            <NavLink to="/" className={linkClass}>
+                {t('home')}
+            </NavLink>
+            <NavLink to="/news" className={linkClass}>
+                {t('news')}
+            </NavLink>
         </nav>
     );
 }
