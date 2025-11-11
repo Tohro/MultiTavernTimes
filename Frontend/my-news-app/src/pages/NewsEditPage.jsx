@@ -14,8 +14,25 @@ export default function NewsEditPage() {
 
     useEffect(() => {
         fetchNewsByIdApi(id, i18n.language)
-            .then(res => setNews(res.data));
+            .then(res => {
+                if (res.status === 204) {
+                    setNews({
+                        newsId: id,
+                        title: '',
+                        subtitle: '',
+                        text: '',
+                        imageFileName: news.imageFileName
+                    });
+                    setServerErrors({});
+                } else {
+                    setNews(res.data);
+                }
+            })
+            .catch(err => {
+                console.error('Ошибка загрузки новости:', err);
+            });
     }, [id, i18n.language]);
+
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -51,7 +68,7 @@ export default function NewsEditPage() {
         setErrors({});
         
         try {
-            await updateNewsApi(
+          let res =  await updateNewsApi(
                 news.newsId,
                 news.imageFileName,
                 i18n.language,
@@ -59,6 +76,7 @@ export default function NewsEditPage() {
                 news.subtitle,
                 news.text
             );
+          console.log(res);
         } catch (err) {
             if (err.response?.status === 400 && err.response?.data?.errors) {
                 setServerErrors(err.response.data.errors);

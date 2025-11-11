@@ -43,7 +43,7 @@ export default function NewsDetailPage() {
 
             <h2 className="text-xl font-semibold ">{news.subtitle}</h2>
 
-            <p className="text-gray-300 whitespace-pre-line">{news.text}</p>
+            <p className="text-gray-300 whitespace-pre-line break-words">{news.text}</p>
 
             <div className="text-sm text-gray-500 space-y-1">
                 <p>🕰️ {t('created')}: {formatDate(news.createdAt)}</p>

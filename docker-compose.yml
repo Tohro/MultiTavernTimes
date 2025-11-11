@@ -33,6 +33,8 @@ services:
       'ConnectionStrings__Postgres': "Server=postgres;Port=${PG_INNER_PORT};Database=${DATABASE};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - postgres
+    volumes:
+      - C:/Docker/${NAME_CONTAINER_API}:/app/wwwroot/news/images
     networks:
       - app_network
   #---------------------------------------------------------frontend

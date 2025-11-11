@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MTT.Domain.Model;
 using MTT.Domain.UseCases.NewsOperations.UpdateNews;
+using MTT.Storage.Entities;
+using News = MTT.Domain.Model.News;
 
 namespace MTT.Storage.Storages.NewsImp;
 
@@ -16,10 +17,11 @@ internal class UpdateNewsStorage(
        
         // Ищем новость с нужным переводом
         var news = await context.News
-            .Where(n=>n.NewsId==newsId)
             .Include(n => n.Translations)
-            .Where(n => n.Translations.Any(t => t.Language == language))
+            .Where(n => n.NewsId == newsId)
             .FirstOrDefaultAsync(cancellationToken);
+
+
 
         if (news is null)
         {
@@ -27,13 +29,40 @@ internal class UpdateNewsStorage(
             return null;
         }
 
-        var translation = news.Translations.First(t => t.Language == language);
+        var translation = news.Translations.FirstOrDefault(t => t.Language == language);
 
         news.ModifiedAt = DateTimeOffset.UtcNow;
-        // Обновляем перевод
-        translation.Title = title;
-        translation.Subtitle = subtitle;
-        translation.Text = text;
+
+        if (translation is null)
+        {
+            // Добавляем новый перевод
+            translation = new NewsTranslation
+            {
+                TranslationId = guidFactory.GetGuid(),
+                Language = language,
+                Title = title,
+                Subtitle = subtitle,
+                Text = text,
+                NewsId = news.NewsId
+            };
+            // Явно указываем EF, что это новая сущность
+            context.Entry(translation).State = EntityState.Added;
+            
+            logger.LogInformation("Добавлен новый перевод для языка {Language}", language);
+        }
+        else
+        {
+            // Обновляем существующий перевод
+            translation.Title = title;
+            translation.Subtitle = subtitle;
+            translation.Text = text;
+            
+            // Явно указываем, что сущность изменилась
+            context.Entry(translation).State = EntityState.Modified;
+
+            logger.LogInformation("Обновлен перевод для языка {Language}", language);
+        }
+
         
 
         // Обновляем изображение, если передано новое имя
