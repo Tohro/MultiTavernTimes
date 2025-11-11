@@ -1,8 +1,8 @@
-import { createContext, useReducer } from 'react';
+import {createContext, useEffect, useReducer} from 'react';
 
 import { authReducer, initialAuthState } from './authReducer';
 import {sha256} from "../utils/hash.js";
-import {loginAuthApi, updateNewsApi} from "./api.js";
+import {loginAuthApi, loginCheck} from "./api.js";
 
 export const AuthContext = createContext(null);
 
@@ -24,6 +24,18 @@ export function AuthProvider({ children }) {
             return false;
         }
     };
+
+    useEffect(  () => {
+        loginCheck()
+            .then(res => {
+                if (res.data.isAuthenticated) {
+                    dispatch({ type: 'LOGIN_SUCCESS' });               
+                }
+            })
+            .catch(() => {
+                logout();
+            });
+    }, []);
 
     const logout = () => {
         dispatch({ type: 'LOGOUT' });

@@ -15,6 +15,12 @@ export const loginAuthApi = (emailHash, passwordHash) =>
         passwordHash
     });
 
+// logout
+export const logoutApi = () => api.post('/logout',{});
+
+//Проверка 
+export const loginCheck =()=> api.get('/check');
+
 //Создать новость
 export const createNewsApi = (imageFileName, language, title, subtitle, text) =>
     api.post('/create', {imageFileName, language, title, subtitle, text});

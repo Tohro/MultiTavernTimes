@@ -38,6 +38,21 @@ public class NewsController(IMediator mediator, IWebHostEnvironment env) : Contr
 
         return Ok();
     }
+    [HttpPost("logout")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Ok(new { message = "Logged out" });
+    }
+    [Authorize]
+    [HttpGet("check")]
+    public IActionResult CheckAuth()
+    {
+        var role = User.IsInRole("Administrator") ? "Administrator" : "User";
+        return Ok(new { isAuthenticated = true, role });
+    }
+
     
     [HttpPost("create")]
     [Authorize(Roles = "Administrator")]
