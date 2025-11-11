@@ -28,14 +28,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MTT.Domain.DependencyInjection\MTT.Domain.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\MTT.Storage.DependencyInjection\MTT.Storage.DependencyInjection.csproj" />
-      <ProjectReference Include="..\MTT.Domain\MTT.Domain.csproj" />
-      <ProjectReference Include="..\MTT.Storage\MTT.Storage.csproj" />
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\" />
+      <ProjectReference Include="..\MTT.Domain.DependencyInjection\MTT.Domain.DependencyInjection.csproj" />
+      <ProjectReference Include="..\MTT.Domain\MTT.Domain.csproj" />
+      <ProjectReference Include="..\MTT.Storage.DependencyInjection\MTT.Storage.DependencyInjection.csproj" />
+      <ProjectReference Include="..\MTT.Storage\MTT.Storage.csproj" />
     </ItemGroup>
 
 </Project>

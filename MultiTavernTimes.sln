@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Domain", "Backend\MTT.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Storage", "Backend\MTT.Storage\MTT.Storage.csproj", "{CF226C45-4254-4AB4-B015-36BE0F01D3BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Storage.DependencyInjection", "MTT.Storage.DependencyInjection\MTT.Storage.DependencyInjection.csproj", "{125C7534-FCC5-45A0-BF87-4BDB8C514F02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Storage.DependencyInjection", "Backend\MTT.Storage.DependencyInjection\MTT.Storage.DependencyInjection.csproj", "{125C7534-FCC5-45A0-BF87-4BDB8C514F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Domain.DependencyInjection", "MTT.Domain.DependencyInjection\MTT.Domain.DependencyInjection.csproj", "{A454652E-5443-4A03-BB28-F5A4DF7129D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTT.Domain.DependencyInjection", "Backend\MTT.Domain.DependencyInjection\MTT.Domain.DependencyInjection.csproj", "{A454652E-5443-4A03-BB28-F5A4DF7129D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
