@@ -29,13 +29,13 @@ function NewsListPage() {
         loadListNews(i18n.language);
     }, [i18n.language]);
 
-    if (loading) return <p className="text-center text-gray-500 py-4">Загрузка новостей...</p>;
+    if (loading) return <p className="text-center text-gray-500 py-4">{t("loading")}...</p>;
     if (error) return <p className="text-center text-red-500 py-4">Ошибка загрузки: {error}</p>;
-    if (!items || items.length === 0) return <p className="text-center text-gray-500 py-4">Нет новостей для отображения.</p>;
+    if (!items || items.length === 0) return <p className="text-center text-gray-500 py-4">{t("nonews")}</p>;
 
     const content =
         totalCount === items.length ? (
-            <p className="text-center text-gray-500 py-4">Нет новостей для отображения.</p>
+            <p className="text-center text-gray-500 py-4">{t("nonews")}</p>
         ) : (
             <div className="text-center mt-4">
                 <button

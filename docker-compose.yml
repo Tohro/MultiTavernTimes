@@ -39,7 +39,7 @@ services:
   mtt_frontend:
     build:
       context: .
-      dockerfile: Frontend/Dockerfile
+      dockerfile: Frontend/my-news-app/Dockerfile
     container_name: "${NAME_CONTAINER_FRONTEND}"
     ports:
       - "8080:80"

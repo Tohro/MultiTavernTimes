@@ -26,7 +26,8 @@ const resources = {
             subtitle: "Subtitle",
             text: "Text",
             image: "Image",
-            submitting: "Submitting"
+            submitting: "Submitting",
+            noNews: "No news to display"
 
         }
     },
@@ -54,7 +55,8 @@ const resources = {
             subtitle: "Подзаголовок",
             text: "Текст",
             image: "Картинка",
-            submitting: "Отправка"
+            submitting: "Отправка",
+            noNews: "Нет новостей для отображения"
         }
     }
 };
