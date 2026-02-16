@@ -84,83 +84,170 @@ export default function NewsCreatePage() {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="max-w-xl mx-auto mt-12 p-6 bg-white border border-gray-300 rounded shadow space-y-6 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-        >
-            <h2 className="text-2xl font-semibold text-center text-gray-400">{t('create_news')}</h2>
-
-            <div>
-                <label className="block mb-1 text-sm font-medium text-gray-400">{t('title')}</label>
-                <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                {errors.title && <p className="text-sm text-red-500 mt-1">{errors.title}</p>}
-            </div>
-
-            <div>
-                <label className="block mb-1 text-sm font-medium text-gray-400">{t('subtitle')}</label>
-                <input
-                    value={subtitle}
-                    onChange={(e) => setSubtitle(e.target.value)}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                {errors.subtitle && <p className="text-sm text-red-500 mt-1">{errors.subtitle}</p>}
-            </div>
-
-            <div>
-                <label className="block mb-1 text-sm font-medium text-gray-400">{t('text')}</label>
-                <textarea
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={5}
-                />
-                {errors.text && <p className="text-sm text-red-500 mt-1">{errors.text}</p>}
-                {serverErrors.Text && (
-                    <p className="text-sm text-red-500 mt-1">{serverErrors.Text[0]}</p>
-                )}
-
-            </div>
-
-            <div>
-                <label className="block mb-1 text-sm font-medium text-gray-400">{t('image')}</label>
-                <input 
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-                />
-
-                {previewUrl && (
-                    <div className="mt-4">
-                        <img
-                            src={previewUrl}
-                            alt="Preview"
-                            className="w-full h-auto border border-gray-300 rounded"
-                        />
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-800 py-8">
+            <div className="container mx-auto px-4">
+                <div className="max-w-2xl mx-auto">
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                            {t('create_news')}
+                        </h1>
+                        <p className="text-lg text-gray-600 dark:text-gray-300">
+                            {t('create_news')}
+                        </p>
                     </div>
-                )}
 
-                {errors.image && <p className="text-sm text-red-500 mt-1">{errors.image}</p>}
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
+                        {/* Title */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {t('title')}
+                            </label>
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder={t('enter_title')}
+                                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition-all duration-200"
+                            />
+                            {errors.title && <p className="text-sm text-red-500 mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {errors.title}
+                            </p>}
+                        </div>
+
+                        {/* Subtitle */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {t('subtitle')}
+                            </label>
+                            <input
+                                type="text"
+                                value={subtitle}
+                                onChange={(e) => setSubtitle(e.target.value)}
+                                placeholder={t('enter_subtitle')}
+                                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition-all duration-200"
+                            />
+                            {errors.subtitle && <p className="text-sm text-red-500 mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {errors.subtitle}
+                            </p>}
+                        </div>
+
+                        {/* Text */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {t('text')}
+                            </label>
+                            <textarea
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                placeholder={t('enter_text')}
+                                rows={8}
+                                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition-all duration-200 resize-none"
+                            />
+                            {errors.text && <p className="text-sm text-red-500 mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {errors.text}
+                            </p>}
+                            {serverErrors.Text && (
+                                <p className="text-sm text-red-500 mt-2 flex items-center">
+                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {serverErrors.Text[0]}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Image Upload */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {t('image')}
+                            </label>
+                            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center hover:border-blue-400 dark:hover:border-blue-500 transition-colors duration-200">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="hidden"
+                                    id="image-upload"
+                                />
+                                <label htmlFor="image-upload" className="cursor-pointer">
+                                    {previewUrl ? (
+                                        <div className="space-y-4">
+                                            <img
+                                                src={previewUrl}
+                                                alt="Preview"
+                                                className="max-h-64 mx-auto rounded-lg shadow-md"
+                                            />
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                {t('click_to_change')}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4">
+                                            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto">
+                                                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-600 dark:text-gray-300 font-medium">
+                                                    {t('click_to_select')}
+                                                </p>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                    {t('file_formats')}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </label>
+                            </div>
+                            {errors.image && <p className="text-sm text-red-500 mt-2 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {errors.image}
+                            </p>}
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className={`w-full py-4 rounded-xl font-semibold text-white transition-all duration-200 ${
+                                    isSubmitting 
+                                        ? 'bg-gray-400 cursor-not-allowed' 
+                                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 shadow-lg hover:shadow-xl'
+                                }`}
+                            >
+                                {isSubmitting ? (
+                                    <span className="flex items-center justify-center">
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                        {t('submitting')}
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center justify-center">
+                                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                        </svg>
+                                        {t('submit')}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full py-2 rounded text-white transition ${
-                    isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
-                }`}
-            >
-                {isSubmitting ? t('submitting') : t('submit')}
-            </button>
-
-            
-        </form>
+        </div>
     );
 }
